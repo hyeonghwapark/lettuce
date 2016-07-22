@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,10 +45,13 @@ public class PubSubCommandTest extends AbstractRedisClientTest implements RedisP
         patterns = LettuceFactories.newBlockingQueue();
         messages = LettuceFactories.newBlockingQueue();
         counts = LettuceFactories.newBlockingQueue();
+
+        LogManager.getLoggerRepository().getLogger("com.lambdaworks.redis.protocol").setLevel(Level.DEBUG);
     }
 
     @After
     public void closePubSubConnection() throws Exception {
+        LogManager.getLoggerRepository().getLogger("com.lambdaworks.redis.protocol").setLevel(Level.INFO);
         pubsub.close();
     }
 
